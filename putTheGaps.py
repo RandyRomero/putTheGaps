@@ -9,8 +9,11 @@ pathToWork = ('.\\test')
 
 
 def rename(number):
+	
+	# The whole functuon runs like this: it takes last file (which equal length of file list), e.g. file047.txt, and rename it as file with ordered number one step higher - file048.txt. It goes from very last number to number which user chosed (inclusive).
+
 	files = os.listdir(pathToWork)
-	for i in range(len(files), number - 1, -1):
+	for i in range(len(files), number - 1, -1): #loop runs backwards 
 		os.rename(os.path.join(pathToWork, 'file{0:0>3}.txt'.format(i)), os.path.join(pathToWork, 'file{0:0>3}.txt'.format(i + 1)))
 
 
