@@ -22,7 +22,7 @@ def lastFileNumber():
 			continue
 
 		
-def rename(number):
+def rename(fileNumber, number):
 	
 	# The whole functuon runs like this: it takes last file (which equal length of file list), e.g. file047.txt, and rename it as file with ordered number one step higher - file048.txt. It goes from very last number to number which user chosed (inclusive).
 	
@@ -32,14 +32,14 @@ def rename(number):
 	while end == False:
 		# print('last file is ' + str(lastFile))
 		
-		for i in range(lastFile, number - 1, -1): #loop runs backwards 
+		for i in range(lastFile, fileNumber - 1, -1): #loop runs backwards 
 			
 			currentFile = os.path.join(pathToWork, 'file{0:0>3}.txt'.format(i))
-			nextFile = os.path.join(pathToWork, 'file{0:0>3}.txt'.format(i + 1))
+			nextFile = os.path.join(pathToWork, 'file{0:0>3}.txt'.format(i + number))
 			try:
 				os.rename(currentFile, nextFile)
 				print(currentFile + ' was renamed as ' + nextFile)
-				if i == number: # break while loop when for loop ended 
+				if i == fileNumber: # break while loop when for loop ended 
 					return
 			except FileExistsError:
 				print('File already exists\n')
@@ -50,16 +50,26 @@ def rename(number):
 ########### Ask user about a number of file he wants to substitute ##########
 
 while True:
-	number = input('Where do you want to put the gap? Please write down number of file (e.g. 004) which do you want to substitute: ')
-	if re.search(r'^\d{3}$', number): # only three digits
-		if os.path.exists(os.path.join(pathToWork, 'file{0:0>3}.txt'.format(number))): # check if file with this number exists
+	fileNumber = input('Where do you want to put the gap? Please write down first number of file (e.g. 004) which do you want to substitute: ')
+	if re.search(r'^\d{3}$', fileNumber): # only three digits
+		if os.path.exists(os.path.join(pathToWork, 'file{0:0>3}.txt'.format(fileNumber))): # check if file with this number exists
 			print('This file exists. Accepted.')
-			rename(int(number))
 			break
 		else:	
-			print('file{0:0>3}.txt doesn\'t exists. Choose another one.\n'.format(number))
+			print('file{0:0>3}.txt doesn\'t exists. Choose another one.\n'.format(fileNumber))
 			continue
 	else:
 		print('Incorrect input. Try again.\n')
 		continue
 
+while True:
+	number = input('How big should be the gap? Please write down a number (1 or 2 digit): ')
+	if re.search(r'^\d|\d\d$', number):
+		print('Number accepted')
+		rename(int(fileNumber), int(number))
+		break
+	else:
+		print('Input error. Try something else')
+		continue
+
+	
