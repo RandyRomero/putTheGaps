@@ -9,7 +9,7 @@ pathToWork = ('.\\test')
 
 def lastFileNumber():
 	while True:
-		lastFile = input('Please write down number of the very file (e.g. 004): ')
+		lastFile = input('Please write down number of the very last file (e.g. 004): ')
 		if re.search(r'^\d{3}$', lastFile): # only three digits
 			if os.path.exists(os.path.join(pathToWork, 'file{0:0>3}.txt'.format(lastFile))): # check if file with this number exists
 				print('This file exists. Accepted.')
@@ -33,10 +33,13 @@ def rename(number):
 		# print('last file is ' + str(lastFile))
 		
 		for i in range(lastFile, number - 1, -1): #loop runs backwards 
-			print('+ ' + str(i))
+			
+			currentFile = os.path.join(pathToWork, 'file{0:0>3}.txt'.format(i))
+			nextFile = os.path.join(pathToWork, 'file{0:0>3}.txt'.format(i + 1))
 			try:
-				os.rename(os.path.join(pathToWork, 'file{0:0>3}.txt'.format(i)), os.path.join(pathToWork, 'file{0:0>3}.txt'.format(i + 1)))
-				if i == number:
+				os.rename(currentFile, nextFile)
+				print(currentFile + ' was renamed as ' + nextFile)
+				if i == number: # break while loop when for loop ended 
 					return
 			except FileExistsError:
 				print('File already exists\n')
