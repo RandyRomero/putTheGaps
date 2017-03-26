@@ -28,18 +28,22 @@ def rename(number):
 	
 	files = os.listdir(pathToWork)
 	lastFile = len(files)
-	while True:
+	end = False
+	while end == False:
 		# print('last file is ' + str(lastFile))
+		
 		for i in range(lastFile, number - 1, -1): #loop runs backwards 
 			print('+ ' + str(i))
 			try:
 				os.rename(os.path.join(pathToWork, 'file{0:0>3}.txt'.format(i)), os.path.join(pathToWork, 'file{0:0>3}.txt'.format(i + 1)))
+				if i == number:
+					return
 			except FileExistsError:
 				print('File already exists\n')
 				lastFile = lastFileNumber()
 				break
+			
 				
-
 ########### Ask user about a number of file he wants to substitute ##########
 
 while True:
