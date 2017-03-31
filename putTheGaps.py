@@ -34,8 +34,7 @@ def rename(fileNumber, number):
 	
 	files = os.listdir(pathToWork)
 	lastFile = lastFileNumber(files)
-	end = False # What the heck is it? 
-	while end == False:
+	while True:
 		# print('last file is ' + str(lastFile))
 		
 		for i in range(lastFile, fileNumber - 1, -1): #loop runs backwards 
