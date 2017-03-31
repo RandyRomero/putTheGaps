@@ -10,11 +10,11 @@ logging.basicConfig(
 )
 
 logging.disable(logging.CRITICAL)
-
-
 pathToWork = ('.\\test')
+files = os.listdir(pathToWork)
 
-def lastFileNumber(files):
+
+def lastFileNumber():
 	
 	# Read files, check which one is last, pass number of last file to loop which start to rename files from the last one
 
@@ -27,13 +27,16 @@ def lastFileNumber(files):
 	lastFile = int(re.search(r'(\d{3})', serialNumbers[len(serialNumbers) - 1]).group(1))
 	logging.debug('lastFile is ' + str(lastFile))
 	return lastFile
+
+# def checkAllFilesThere():
+
 		
-def rename(fileNumber, number):
+def rename():
 	
 	# The whole functuon runs like this: it takes last file (which equal length of file list), e.g. file047.txt, and rename it as file with ordered number one step higher - file048.txt. It goes from very last number to number which user chosed (inclusive).
 	
-	files = os.listdir(pathToWork)
-	lastFile = lastFileNumber(files)
+	
+	lastFile = lastFileNumber()
 	while True:
 		# print('last file is ' + str(lastFile))
 		
@@ -61,6 +64,7 @@ while True:
 	fileNumber = input('Where do you want to put the gap? Please write down first number of file (e.g. 004) which do you want to substitute: ')
 	if re.search(r'^\d{3}$', fileNumber): # only three digits
 		if os.path.exists(os.path.join(pathToWork, 'file{0:0>3}.txt'.format(fileNumber))): # check if file with this number exists
+			fileNumber = int(fileNumber)
 			print('This file exists. Accepted.')
 			break
 		else:	
@@ -73,8 +77,10 @@ while True:
 while True:
 	number = input('How big should be the gap? Please write down a number (1 or 2 digit): ')
 	if re.search(r'^\d|\d\d$', number):
+		number = int(number)
 		print('Number accepted')
-		rename(int(fileNumber), int(number))
+		# checkAllFilesThere()
+		rename()
 		break
 	else:
 		print('Input error. Try something else')
