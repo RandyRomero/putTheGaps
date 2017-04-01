@@ -2,7 +2,7 @@
 
 '''Program that can insert gaps into numbered files so that a new file can be added.'''
 
-import logging, os, re
+import logging, os, re, sys
 
 logging.basicConfig(
 	format = "%(levelname) -1s %(asctime)s line %(lineno)s: %(message)s",
@@ -12,7 +12,6 @@ logging.basicConfig(
 logging.disable(logging.CRITICAL)
 pathToWork = ('.\\test')
 files = os.listdir(pathToWork)
-
 
 def lastFileNumber():
 	
@@ -28,15 +27,18 @@ def lastFileNumber():
 	logging.debug('lastFile is ' + str(lastFile))
 	return lastFile
 
-# def checkAllFilesThere():
-
+def checkAllFilesThere():
+	for i in range(fileNumber, fileNumber + gapSize):
+		currentFile = 'file{0:0>3}.txt'.format(i)
+		if not os.path.exists(os.path.join(pathToWork, currentFile)):
+			print('Error: there are some files missing(' + currentFile + '). Can\'t rename missing file. Quit.')
+			sys.exit()
 		
 def rename():
 	
 	# The whole functuon runs like this: it takes last file (which equal length of file list), e.g. file047.txt, and rename it as file with ordered number one step higher - file048.txt. It goes from very last number to number which user chosed (inclusive).
 	
 	
-	lastFile = lastFileNumber()
 	while True:
 		# print('last file is ' + str(lastFile))
 		
@@ -52,12 +54,14 @@ def rename():
 					return
 			except FileExistsError:
 				print('File already exists\n')
-				lastFile = lastFileNumber(files) #TODO now it is seems redundant
 				break
 			except FileNotFoundError:
 				print('Can\'t rename ' + currentFile + '. File is missing.')
 
-			
+############################################################################
+
+lastFile = lastFileNumber()
+
 ########### Ask user about a number of file he wants to substitute ##########
 
 while True:
@@ -75,11 +79,11 @@ while True:
 		continue
 
 while True:
-	number = input('How big should be the gap? Please write down a number (1 or 2 digit): ')
-	if re.search(r'^\d|\d\d$', number):
-		number = int(number)
+	gapSize = input('How big should be the gap? Please write down a number (1 or 2 digit): ')
+	if re.search(r'^\d|\d\d$', gapSize):
+		gapSize = int(gapSize)
 		print('Number accepted')
-		# checkAllFilesThere()
+		checkAllFilesThere()
 		rename()
 		break
 	else:
