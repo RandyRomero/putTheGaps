@@ -15,7 +15,7 @@ files = os.listdir(pathToWork)
 
 def lastFileNumber():
 	
-	# Read files, check which one is last, pass number of last file to loop which start to rename files from the last one
+	# Read files, check which one is the last, pass number of it to loop which start to rename files from the last one
 
 	serialNumbers = []
 	for file in files:
@@ -36,14 +36,10 @@ def checkAllFilesThere():
 		
 def rename():
 	
-	# The whole functuon runs like this: it takes last file (which equal length of file list), e.g. file047.txt, and rename it as file with ordered number one step higher - file048.txt. It goes from very last number to number which user chosed (inclusive).
-	
+	# The whole functuon runs like this: it takes last file, e.g. file047.txt, and renames it as file with ordered number one step higher - file048.txt. It goes from very last number to number which user chosed (inclusive).
 	
 	while True:
-		# print('last file is ' + str(lastFile))
-		
 		for i in range(lastFile, fileNumber - 1, -1): #loop runs backwards 
-			
 			currentFile = os.path.join(pathToWork, 'file{0:0>3}.txt'.format(i))
 			# logging.debug(currentFile)
 			nextFile = os.path.join(pathToWork, 'file{0:0>3}.txt'.format(i + number))
@@ -57,6 +53,7 @@ def rename():
 				break
 			except FileNotFoundError:
 				print('Can\'t rename ' + currentFile + '. File is missing.')
+				break
 
 ############################################################################
 
